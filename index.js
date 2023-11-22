@@ -26,16 +26,16 @@ app.get("/api/hello", function (req, res) {
 
 
 // API using the date route 
-app.get("/api/:date?", function (req, res) {
+app.get("/api/:date", function (req, res) {
   let dateString = req.params.date
-  
-  if( new Date(req.params.date).toUTCString() === "Invalid Date"){
+  console.log(dateString,Date(req.params.date).toString())
+  if( Date(req.params.date).toString() === "Invalid Date"){
     res.json({error:"Invalid Date"})
   }
 
   if(/\d{5,}/.test(dateString)){
     res.json({
-      unix:dateString,
+      unix:new Date(parseInt(dateString)).valueOf(),
       utc:new Date(parseInt(dateString)).toUTCString()
     })
   }
@@ -47,8 +47,13 @@ app.get("/api/:date?", function (req, res) {
 
 });
 
+app.get("/api/", function (req, res) {
+  res.json({
+    unix:new Date().valueOf(),
+    utc:new Date().toUTCString()
+  });
 
-
+});
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT||3000, function () {
