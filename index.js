@@ -26,7 +26,7 @@ app.get("/api/hello", function (req, res) {
 
 
 // API using the date route 
-app.get("/api/:date?", function (req, res) {
+app.get("/api/:date", function (req, res) {
   let dateString = req.params.date
   
   if(/\d{5,}/.test(dateString)){
@@ -46,7 +46,6 @@ app.get("/api/:date?", function (req, res) {
     unix:new Date(dateString).valueOf(),
     utc:new Date(dateString).toUTCString()
   });
-
 
 });
 
