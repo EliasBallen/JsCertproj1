@@ -26,18 +26,21 @@ app.get("/api/hello", function (req, res) {
 
 
 // API using the date route 
-app.get("/api/:date", function (req, res) {
+app.get("/api/:date?", function (req, res) {
   let dateString = req.params.date
-  console.log(dateString,Date(req.params.date).toString())
-  if( Date(req.params.date).toString() === "Invalid Date"){
-    res.json({error:"Invalid Date"})
-  }
-
+  
   if(/\d{5,}/.test(dateString)){
+
+    if(parseInt(dateString).toString()!==dateString){
+      res.json({error:"Invalid Date"})
+    }
     res.json({
       unix:new Date(parseInt(dateString)).valueOf(),
       utc:new Date(parseInt(dateString)).toUTCString()
     })
+  }
+  if(new Date(dateString).toUTCString() === "Invalid Date"){
+    res.json({error:"Invalid Date"})
   }
   res.json({
     unix:new Date(dateString).valueOf(),
